@@ -41,7 +41,7 @@ public class Main {
 		} catch (ConfigException e1) {
 			e1.printStackTrace();
 		} 
-	
+
 		
 		//2.)	Initialize SMS Client using „OneAPIConfig“ as constructor parameter
 		//-	messages are sent using „OneAPI“
@@ -104,7 +104,7 @@ public class Main {
 
 		//Send SMS using mandatory parameters 	
 		try {
-			SMSSendResponse client = client1.sendSMS("senderAddress", "385563657436", "messageText");
+			SMSSendResponse response = client1.sendSMS("senderAddress", "385563657436", "messageText");
 		} catch (CreateSmsException e1) {
 			e1.printStackTrace();
 		} catch (SendSmsException e1) {
