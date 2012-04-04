@@ -1,4 +1,4 @@
-package sms.test.smpp;
+package sms.smpp;
 
 import com.cloudhopper.smpp.SmppConstants;
 import com.cloudhopper.smpp.SmppServerConfiguration;

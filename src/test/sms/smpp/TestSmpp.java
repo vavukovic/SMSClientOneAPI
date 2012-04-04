@@ -1,16 +1,19 @@
-package sms.test.smpp;
+package sms.smpp;
 
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import sms.common.impl.SMSClient;
 import sms.common.model.DeliveryReportListener;
 import sms.common.model.SMS;
 import sms.common.response.SMSSendDeliveryStatusResponse;
 import sms.common.response.SMSSendResponse;
+import sms.smpp.SmppServerSimulator;
 import sms.smpp.config.SmppConfig;
 import sms.smpp.impl.SmppSessionWrapper.DLRType;
+
 
 public class TestSmpp {
 	public static final int SERVERPORT = 9785;
@@ -101,10 +104,9 @@ public class TestSmpp {
 
 		// set listener
 		client.addDeliveryReportListener(new DeliveryReportListener() {
-
 			@Override
 			public void onDeliveryReportReceived(SMSSendDeliveryStatusResponse response, DLRType dlrType) {
-				dlrsPush = response;			
+				dlrsPush = response;						
 			}
 		});
 
