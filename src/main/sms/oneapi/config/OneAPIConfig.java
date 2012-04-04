@@ -11,8 +11,8 @@ public class OneAPIConfig  {
 	private String smsMessagingBaseUrl = "";
 	private String versionOneAPISMS = "1";
 	private String retrieveInboundMessagesRegistrationId = "";
-	private int inboundMessagesRetrievingInterval = 40000;
-	private int dlrRetrievingInterval = 1000000;
+	private int inboundMessagesRetrievingInterval = 0;
+	private int dlrRetrievingInterval = 0;
 	private Authorization authorization;
 
 	/**

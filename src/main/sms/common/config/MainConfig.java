@@ -30,8 +30,13 @@ public class MainConfig  {
 	 */
 	public void saveToConfigFile() throws ConfigException  {
 		ObjectMapper mapper = new ObjectMapper();
-		try {
-			mapper.writeValue(new File(this.CONFIG_FILE_NAME), this);
+		try {			
+			File fileCfg = new File(this.CONFIG_FILE_NAME);
+			if(!fileCfg.exists()){
+				fileCfg.createNewFile();
+			}
+			
+			mapper.writeValue(fileCfg, this);
 		} catch (Exception e) {
 			throw new ConfigException(e.getMessage(), e);
 		}
