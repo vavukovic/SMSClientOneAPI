@@ -28,7 +28,7 @@ public class Main {
 
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {	
-				
+
 		//1.)	Initialize SMS Client with empty constructor
 		//-	configuration data are loaded from the „client.cfg“ file
 		//-	“sender“  - configuration property determines if the messages will be sent using „OneAPI“ or „SMPP“ (SenderType.ONEAPI, SenderType.SMPP)  
@@ -42,11 +42,11 @@ public class Main {
 			e1.printStackTrace();
 		} 
 
-		
+
 		//2.)	Initialize SMS Client using „OneAPIConfig“ as constructor parameter
 		//-	messages are sent using „OneAPI“
 		//-	other functionalities are always available using  the „OneAPI“(retrieveInboundMessages, subcribeToDeliveryNotifications, subcribeToReceiptNotifications...)
-		
+
 		//Create OneAPI configuration object
 		OneAPIConfig oneAPIConfig = new OneAPIConfig("http://localhost:8080/infobip-oneapi/rest/SendSMSService/1/smsmessaging", "SmppBasicSend", "SmppBasic");	
 		//Initialize client
@@ -56,7 +56,7 @@ public class Main {
 			e1.printStackTrace();
 		}  
 
-		
+
 		//3.) Initialize SMS Client using „OneAPIConfig“, „SmppConfig“ as constructor parameters
 		//-	messages are sent using „SMPP“
 		//-	other functionalities are always available using  the „OneAPI“(retrieveInboundMessages, subcribeToDeliveryNotifications, subcribeToReceiptNotifications...)
@@ -72,7 +72,7 @@ public class Main {
 			e1.printStackTrace();
 		}    
 
-		
+
 		//4.) Create new SMS object	
 		SMS sms1 = new SMS ();
 		sms1.setSenderAddress("senderAddress");
@@ -90,8 +90,8 @@ public class Main {
 		sms2.setAutoResolveDestTonAndNpiOptions(true);
 		sms2.setAutoResolveSrcTonAndNpiOptions(true);
 		sms2.setEncodeUnicodeTextToBinary(true);
-	
-		
+
+
 		//5.) SEND SMS		
 		//Send SMS using created object 
 		try {
@@ -99,7 +99,7 @@ public class Main {
 		} catch (SendSmsException e1) {
 			e1.printStackTrace();
 		}
-			
+
 		//------  Or send using alternative methods.. ------
 
 		//Send SMS using mandatory parameters 	
@@ -110,14 +110,14 @@ public class Main {
 		} catch (SendSmsException e1) {
 			e1.printStackTrace();
 		}
-		
+
 		//Send Scheduled SMS using mandatory parameters
 		try {
 			SMSSendResponse response1 = client1.sendScheduledSMS("senderAddress", "385563657436", "messageText", "YYMMDDhhmmsstnnp");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		//Send Flash Notification SMS using mandatory parameters
 		try {
 			SMSSendResponse response2 = client1.sendFlashNotification("senderAddress", "385563657436", "messageText");
@@ -128,7 +128,7 @@ public class Main {
 		} catch (NotSupportedException e) {
 			e.printStackTrace();
 		}
-		
+
 		//Send HLR request 
 		try {
 			SMSSendResponse response3 = client1.sendHLRRequest("385957391837");
@@ -145,7 +145,7 @@ public class Main {
 		} catch (QueryDeliveryStatusException e) {
 			e.printStackTrace();
 		}
-			
+
 		//Query delivery status using resource URL that can be found in the „sent message“ response  
 		try {
 			SMSSendDeliveryStatusResponse response5 = client1.queryDeliveryStatusByUrl("http://resourceUrl");
@@ -166,35 +166,35 @@ public class Main {
 		} catch (RetrieveInboundMessagesException e) {
 			e.printStackTrace();
 		}
-				
+
 		//Subscribe to delivery notifications
 		try {
 			SMSDeliveryReceiptSubscriptionResponse response8 = client1.subscribeToDeliveryNotifications("senderAddress", "notifyURL");
 		} catch (SubscribeToDeliveryNotificationException e) {
 			e.printStackTrace();
 		}
-				
+
 		//Cancel delivery notifications
 		try {
 			int response9 = client1.cancelDeliveryNotifications("subscriptionId");
 		} catch (CancelDeliveryNotificationsException e) {
 			e.printStackTrace();
 		}
-			
+
 		//Subscribe to receipt notifications
 		try {
 			SMSMessageReceiptSubscriptionResponse response10 = client1.subscribeToReceiptNotifications ("385563657436", "notifyURL");
 		} catch (SubscribeToReceiptNotificationsException e) {
 			e.printStackTrace();
 		}
-				
+
 		//Cancel receipt notifications
 		try {
 			int response11 = client1.cancelReceiptNotifications("subscriptionId");
 		} catch (CancelReceiptNotificationsException e) {
 			e.printStackTrace();
 		}
-		
+
 		//locate a single specified mobile terminal to the specified level of accuracy
 		try {
 			LocationResponse response12 = client1.locateTerminal("3859529475928938", 20);
@@ -205,31 +205,31 @@ public class Main {
 		//Example create main configuration object
 		MainConfig config = new MainConfig();	
 		//Set OneAPI configuration values
-		config.getOneAPI().setSmsMessagingRootUrl("http://www.test.com");
+		config.getOneAPI().setSmsMessagingBaseUrl("http://www.test.com");
 		config.getOneAPI().setVersionOneAPISMS("http://www.test.com");
 		config.getOneAPI().setAuthorization(new Authorization("TestUserName", "TestPassword"));		
-		
+
 		//Example to save configuration to configuration file (e.g. client.cfg) 
-//		try {
-//			config.saveToConfigFile();  -- Note!!!: it will overwrite "client.cfg" file
-//		} catch (ConfigException e) {
-//			e.printStackTrace();
-//		}
-		
+		//		try {
+		//			config.saveToConfigFile();  -- Note!!!: it will overwrite "client.cfg" file
+		//		} catch (ConfigException e) {
+		//			e.printStackTrace();
+		//		}
+
 		//Example to load configuration from configuration file (e.g. client.cfg) 
 		try {
 			config.loadFromConfigFile();
 		} catch (ConfigException e) {
 			e.printStackTrace();
 		}
-		
+
 		//Print SMS messaging URL to console
-		System.out.println(config.getOneAPI().getSmsMessagingRootUrl());
+		System.out.println(config.getOneAPI().getSmsMessagingBaseUrl());
 		System.out.println(config.getOneAPI().getVersionOneAPISMS());
 		System.out.println(config.getOneAPI().getAuthorization().getUsername());
 		System.out.println(config.getOneAPI().getAuthorization().getPassword());
-			
-		
+
+
 		//Check if specified text is UNICODE
 		System.out.println("Is 'čćwwwww' UNICODE?" +  String.valueOf(client1.isUnicode("čćwwwww")));	
 		//Check if specified text is UNICODE

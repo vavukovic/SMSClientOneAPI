@@ -8,7 +8,7 @@ import sms.common.model.DeliveryInfoList;
  */
 public class SMSSendDeliveryStatusResponse implements java.io.Serializable {	
 	private static final long serialVersionUID = -7840104931971343018L;
-	
+
 	/**
 	 * contains the HTTP response code returned from the server
 	 */
@@ -24,9 +24,9 @@ public class SMSSendDeliveryStatusResponse implements java.io.Serializable {
 	 */
 	RequestError requestError=null;
 
-	
+
 	String jsonResponse = null;
-	
+
 	/**
 	 * return the HTTP response code returned from the server
 	 */
@@ -39,7 +39,7 @@ public class SMSSendDeliveryStatusResponse implements java.io.Serializable {
 	 * return the server generated error response (from the JSON based error response)
 	 */
 	public RequestError getRequestError() { return requestError; }
-	
+
 	/**
 	 * set the stored HTTP response code
 	 * @param httpResponseCode sets the stored HTTP response code
@@ -56,7 +56,7 @@ public class SMSSendDeliveryStatusResponse implements java.io.Serializable {
 	 * @see RequestError
 	 */
 	public void setRequestError(RequestError requestError) { this.requestError=requestError; }
-	
+
 	/**
 	 * the contents of the HTTP 'Location' header response if available
 	 */
@@ -85,14 +85,16 @@ public class SMSSendDeliveryStatusResponse implements java.io.Serializable {
 	 * @param deliveryInfoList
 	 */
 	public void setDeliveryInfoList(DeliveryInfoList deliveryInfoList) { this.deliveryInfoList=deliveryInfoList; }
-	
+
 	/** 
 	 * generate a textual representation of the SMSSendDeliveryStatusResponse including all nested elements and classes 
 	 */
 	public String toString() {
 		StringBuffer buffer=new StringBuffer();
-		buffer.append("httpResponseCode = "+httpResponseCode);
-		buffer.append(", contentType = "+contentType);
+		if (httpResponseCode > 0) {
+			buffer.append("httpResponseCode = "+httpResponseCode);
+			buffer.append(", contentType = "+contentType);
+		}
 		if (requestError!=null) {
 			buffer.append(", requestError = {");
 			buffer.append(requestError.toString());
@@ -105,5 +107,4 @@ public class SMSSendDeliveryStatusResponse implements java.io.Serializable {
 		}
 		return buffer.toString();
 	}
-	
 }

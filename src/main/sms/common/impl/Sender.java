@@ -13,7 +13,7 @@ import sms.common.model.SMS;
 import sms.common.response.SMSSendResponse;
 
 public interface Sender {
-	
+
 	/**
 	 * Send an SMS to one or more mobile terminals using the customized SMS object 
 	 * @param sms - object containing data needed to be filled in order to send the SMS
@@ -21,7 +21,7 @@ public interface Sender {
 	 * @throws SendSmsException
 	 */
 	public SMSSendResponse sendSMS(SMS sms) throws SendSmsException;
-	
+
 	/**
 	 * Send an SMS to one mobile terminal using mandatory parameters 
 	 * @param senderAddress (mandatory) is the address to whom a responding SMS may be sent
@@ -44,7 +44,7 @@ public interface Sender {
 	 * @throws NotSupportedException 
 	 */
 	public SMSSendResponse sendScheduledSMS(String senderAddress, String recipientAddress, String messageText, String scheduleDeliveryTime) throws CreateSmsException, SendSmsException, NotSupportedException;
-	
+
 	/**
 	 * Send an 'Flash Notification' SMS to one mobile terminal ('setSendAsFlashNotification'property is automatically set to 'True') 
 	 * @See In case the specified 'messageText' is 'UNICODE' it is encoded to binary and 'DataCoding' parameter is automatically set to '8'. 'SrcTon', 'SrcNpi', 'DestTon', 'DestNpi' message parameters are resolved automatically depending on the specified 'senderAddress' and 'recipientAddress')
@@ -55,7 +55,7 @@ public interface Sender {
 	 * @throws NotSupportedException 
 	 */
 	public SMSSendResponse sendFlashNotification(String senderAddress, String recipientAddress, String messageText) throws CreateSmsException, SendSmsException, NotSupportedException;
-			
+
 	/**
 	 * Send HLR Request for one mobile terminal
 	 * @param destination (mandatory) is the address for whom HLR request is send
@@ -63,7 +63,7 @@ public interface Sender {
 	 * @throws NotSupportedException 
 	 */
 	public SMSSendResponse sendHLRRequest(String destination) throws SendHlrRequestException, NotSupportedException;
-		
+
 	/**
 	 * Add 'Inbound Messages' listener
 	 * 
@@ -71,19 +71,19 @@ public interface Sender {
 	 * @throws InboundMessageListenerException 
 	 */
 	public void addInboundMessageListener(InboundMessageListener listener) throws InboundMessageListenerException;
-			
+
 	/**
 	 * Add 'Delivery Reports' listener.
 	 * @param listener - (new DeliveryReportListener)
 	 * @throws DeliveryReportListenerException 
 	 */
 	public void addDeliveryReportListener(DeliveryReportListener listener) throws DeliveryReportListenerException;
-	
+
 	/**
 	 * Release client resources
 	 */
 	public void destroy();
-	
+
 	/**
 	 * Get sender type (ONEAPI, SMPP)
 	 * @return SenderType

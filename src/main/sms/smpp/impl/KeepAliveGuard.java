@@ -50,7 +50,8 @@ public class KeepAliveGuard {
 		public KeepAliveTask(SmppSession session) {
 			this.session = session;
 		}
-		@SuppressWarnings({ "rawtypes", "unused" })
+
+		@SuppressWarnings({ "rawtypes" })
 		public void run() {
 			try {
 				WindowFuture<Integer, PduRequest, PduResponse> future;
@@ -60,7 +61,7 @@ public class KeepAliveGuard {
 					logger.error("KeepAlive ERROR: Failed to receive enquire_link_resp within specified time");
 				} else if (future.isSuccess()) {   
 					EnquireLinkResp enquireLinkResp = (EnquireLinkResp)future.getResponse();
-					//logger.info("KeepAlive Ok response: [" + enquireLinkResp.getCommandStatus() + "=" + enquireLinkResp.getResultMessage() + "]");  
+					logger.info("KeepAlive OK response: [" + enquireLinkResp.getCommandStatus() + "=" + enquireLinkResp.getResultMessage() + "]");  
 				} else {    
 					logger.error("KeepAlive ERROR: Failed to properly receive enquire_link_resp: " + future.getCause());
 				}

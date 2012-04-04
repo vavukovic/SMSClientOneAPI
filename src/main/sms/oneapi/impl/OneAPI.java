@@ -24,7 +24,7 @@ public interface OneAPI {
 	 * @throws NotSupportedException 
 	 */
 	public LocationResponse locateTerminal(String address, int requestedAccuracy) throws LocateTerminalException, NotSupportedException;
-	
+
 	/**
 	 * Locate multiple specified mobile terminals to the specified level of accuracy
 	 * @param addresses (mandatory) The MSISDN or Anonymous Customer Reference of the mobile device to locate. The protocol and Ô+Ő identifier must be used for MSISDN. Do not URL escape prior to passing to the locateMultipleTerminals function as this will be done by the API. Note that if any element of the address array is null it will not be sent to the OneAPI server.
@@ -34,7 +34,7 @@ public interface OneAPI {
 	 * @throws NotSupportedException 
 	 */
 	public LocationResponse locateMultipleTerminals(String[] addresses, int requestedAccuracy) throws LocateTerminalException, NotSupportedException;	
-	
+
 	/**
 	 * Query the delivery status for an SMS sent to one or more mobile terminals                        
 	 * @param senderAddress (mandatory) is the address from which SMS messages are being sent. Do not URL encode this value prior to passing to this function
@@ -53,7 +53,7 @@ public interface OneAPI {
 	 * @throws QueryDeliveryStatusException 
 	 */
 	public SMSSendDeliveryStatusResponse queryDeliveryStatusByUrl(String resourceUrl) throws NotSupportedException, QueryDeliveryStatusException;
-	
+
 	/**
 	 * Start subscribing to delivery status notifications for all your sent SMS  	                          
 	 * @param senderAddress (mandatory) is the address from which SMS messages are being sent. Do not URL encode this value prior to passing to this function
@@ -93,7 +93,7 @@ public interface OneAPI {
 	 * @throws CancelDeliveryNotificationsException 
 	 */
 	public int cancelDeliveryNotificationsByUrl(String resourceUrl) throws CancelDeliveryNotificationsException;
-	
+
 	/**
 	 * Retrieve SMS messages sent to your Web application 
 	 * @param registrationId (mandatory) - loaded from the client 'OneAPIConfig' object
@@ -110,7 +110,7 @@ public interface OneAPI {
 	 * @throws RetrieveInboundMessagesException 
 	 */
 	public RetrieveSMSResponse retrieveInboundMessages(String registrationId) throws RetrieveInboundMessagesException;
-	
+
 	/**
 	 * Retrieve SMS messages sent to your Web application 
 	 * @param registrationId (mandatory) is agreed with your network operator for receiving messages

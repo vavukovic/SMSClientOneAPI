@@ -5,7 +5,7 @@ package sms.common.model;
  */
 public class DeliveryInfoList implements java.io.Serializable {
 	private static final long serialVersionUID = -916640634071165842L;
-	
+
 	/**
 	 * The inner class DeliveryInfo contains pairings of the recipient address and a textual delivery status
 	 */
@@ -23,7 +23,7 @@ public class DeliveryInfoList implements java.io.Serializable {
 		 * "DeliveredToNetwork", successful delivery to the network enabler responsible for routing the MMS
 		 */
 		private String deliveryStatus=null;
-		
+
 		/**
 		 * return the address of the recipient (normally MSISDN)
 		 */
@@ -32,7 +32,7 @@ public class DeliveryInfoList implements java.io.Serializable {
 		 * return the delivery status for this recipient
 		 */
 		public String getDeliveryStatus() { return deliveryStatus; }
-		
+
 		/**
 		 * set the recipient address. This is called internally to set the contents according to the JSON response.
 		 */
@@ -41,14 +41,14 @@ public class DeliveryInfoList implements java.io.Serializable {
 		 * set the deliveryStatus. This is called internally to set the contents according to the JSON response.
 		 */
 		public void setDeliveryStatus(String deliveryStatus) { this.deliveryStatus=deliveryStatus; }
-		
+
 		/**
 		 * default constructor
 		 */
 		public DeliveryInfo() {
-			
+
 		}
-		
+
 		/**
 		 * utility constructor to create a DeliveryInfo instance with all fields set
 		 * @param address
@@ -58,7 +58,7 @@ public class DeliveryInfoList implements java.io.Serializable {
 			this.address=address;
 			this.deliveryStatus=deliveryStatus;
 		}
-		
+
 		/** 
 		 * generate a textual representation of the DeliveryInfo contents 
 		 */
@@ -71,7 +71,7 @@ public class DeliveryInfoList implements java.io.Serializable {
 			return buffer.toString();
 		}
 	}
-		
+
 	/** 
 	 * the deliveryInfoList object contains the delivery information for each address that you asked to send the message to, in a deliveryInfo array.
 	 */
@@ -97,7 +97,7 @@ public class DeliveryInfoList implements java.io.Serializable {
 	 * set resourceURL containing a URL uniquely identifying this DeliveryInfoList request. This is called internally to set the contents according to the JSON response. 
 	 */
 	public void setResourceURL(String resourceURL) { this.resourceURL=resourceURL; }
-		
+
 	/** 
 	 * generate a textual representation of the DeliveryInfoList instance including nested elements and classes 
 	 */
@@ -118,5 +118,5 @@ public class DeliveryInfoList implements java.io.Serializable {
 		return buffer.toString();
 	}
 
-	
+
 }

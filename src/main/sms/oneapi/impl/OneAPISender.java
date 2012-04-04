@@ -6,7 +6,6 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.event.EventListenerList;
-
 import sms.common.exceptiontype.DeliveryReportListenerException;
 import sms.common.exceptiontype.NotSupportedException;
 import sms.common.exceptiontype.RequestError;
@@ -24,7 +23,7 @@ import sms.oneapi.util.JSONRequest;
 import sms.oneapi.util.OneApiConnection;
 
 public class OneAPISender implements Sender {
-	
+
 	private OneAPIConfig oneAPIConfig = null;
 	private static JSONRequest<SMSSendResponse> smsSendResponseProcessor=new JSONRequest<SMSSendResponse>(new SMSSendResponse());
 	private DLRStatusRetriever dlrRetriever= null;
@@ -32,7 +31,7 @@ public class OneAPISender implements Sender {
 	private volatile EventListenerList inboundMessageListenerList = null;
 	private volatile EventListenerList deliveryReportListenerList = null;
 	private List<String> resourceUrlList = null;
-	
+
 	//*************************OneAPISender initialization***********************************************************************************************************************************************
 	/**
 	 * Initialize 'OneAPISender' object
@@ -40,7 +39,7 @@ public class OneAPISender implements Sender {
 	public OneAPISender() {
 		super();
 	}
-	
+
 	//*************************OneAPISender public************************************************************************************************************************************************************				
 	/**
 	 * Initialize 'OneAPISender' object using 'oneAPIConfig'
@@ -57,7 +56,7 @@ public class OneAPISender implements Sender {
 	public OneAPIConfig getOneAPIConfig() {
 		return this.oneAPIConfig;
 	}
-		
+
 	/**
 	 * Get resource url list used to query delivery status in the 'DLRStatusRetirever'
 	 * @return resourceUrlList
@@ -65,7 +64,7 @@ public class OneAPISender implements Sender {
 	public List<String> getResourceUrlList() {
 		return resourceUrlList;
 	}
-	
+
 	/**
 	 *  Send an SMS over OneAPI to one or more mobile terminals using the customized 'SMS' object
 	 * @param sms - object containing data needed to be filled in order to send the SMS
@@ -75,7 +74,7 @@ public class OneAPISender implements Sender {
 	@Override
 	public SMSSendResponse sendSMS(SMS sms) throws SendSmsException {
 		if (sms == null) throw new SendSmsException("'sms' parameter is null");
-		
+
 		SMSSendResponse response = new SMSSendResponse();
 
 		FormParameters formParameters = new FormParameters();
@@ -89,7 +88,7 @@ public class OneAPISender implements Sender {
 
 		int responseCode=0;
 		try {				
-			StringBuilder buildUrl = new StringBuilder(this.oneAPIConfig.getSmsMessagingRootUrl());
+			StringBuilder buildUrl = new StringBuilder(this.oneAPIConfig.getSmsMessagingBaseUrl());
 			buildUrl.append("/SendSMSService/");
 			buildUrl.append(URLEncoder.encode(this.oneAPIConfig.getVersionOneAPISMS(), OneApiConnection.CHAR_ENCODING));	
 			buildUrl.append("/smsmessaging/outbound/");	
@@ -107,19 +106,19 @@ public class OneAPISender implements Sender {
 
 			responseCode=connection.getResponseCode();		
 			response = smsSendResponseProcessor.getResponse(connection, OneApiConnection.CREATED);
-						
+
 			System.out.println("" + responseCode);
-			
+
 			//TODO - Remove when push server will be implemented
 			//Add resource url to the list which will be used to query delivery status 
 			if (response.getResourceReference() != null) {
 				if (resourceUrlList == null) {
 					resourceUrlList = new ArrayList<String>();
 				}
-				
+
 				resourceUrlList.add(response.getResourceReference().getResourceURL());
 			}
-				
+
 			return response;
 
 		} catch (Exception e) {			
@@ -129,7 +128,7 @@ public class OneAPISender implements Sender {
 			throw new SendSmsException(e.getMessage(), e, response);
 		}	     	
 	}
-	
+
 	/**
 	 * Send an SMS over OneAPI to one mobile terminal using mandatory parameters 
 	 * @param senderAddress (mandatory) is the address to whom a responding SMS may be sent
@@ -143,7 +142,7 @@ public class OneAPISender implements Sender {
 		SMS sms = new SMS(senderAddress, recipientAddress, messageText);
 		return this.sendSMS(sms);	
 	}
-		
+
 	/**
 	 * Add OneAPI 'Delivery Reports' listener
 	 * @param listener - (new DeliveryReportListener) 
@@ -177,7 +176,7 @@ public class OneAPISender implements Sender {
 	public EventListenerList getInboundMessageListeners() {
 		return inboundMessageListenerList;
 	}
-	
+
 	public EventListenerList getDeliveryReportListeners() {
 		return deliveryReportListenerList;
 	}
@@ -189,7 +188,7 @@ public class OneAPISender implements Sender {
 		this.StopDLRRetriever();
 		this.StopInboundMessagesRetriever();
 	}
-	
+
 	/**
 	 * Get sender type
 	 * @return SenderType
@@ -216,7 +215,7 @@ public class OneAPISender implements Sender {
 
 		this.deliveryReportListenerList = null;
 	}
-	
+
 	private void StartInboundMessagesRetriever() {
 		if (this.inboundRetriever == null) {
 			this.inboundRetriever = new InboundMessagesRetriever();
@@ -233,7 +232,7 @@ public class OneAPISender implements Sender {
 
 		this.inboundMessageListenerList = null;
 	}
-	
+
 	//*************************NOT SUPPORTED*************************************************************************************************************************************************************	
 	/**
 	 * NOT SUPPORTED

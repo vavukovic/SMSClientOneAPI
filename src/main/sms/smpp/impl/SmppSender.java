@@ -152,7 +152,7 @@ public class SmppSender implements Sender {
 	}
 
 	/**
-	 * Add SMPP 'Inbound Messages' listener
+	 * Add SMPP 'INBOUND Messages' listener
 	 * @param listener - (new InboundMessageListener)
 	 * @throws InboundMessageListenerException  
 	 */
@@ -190,7 +190,7 @@ public class SmppSender implements Sender {
 			this.flashNotificationSession = null;
 		}
 	}
-	
+
 	/**
 	 * Get sender type
 	 * @return SenderType
@@ -201,6 +201,12 @@ public class SmppSender implements Sender {
 	}
 
 	//*************************SmppSender private*************************************************************************************************************************************************	
+	
+	/**
+	 * Create sessions depending on the SMPP configuration flags
+	 * @throws SmppClientBootstrapException
+	 * @throws SmppEstablishConnectionException
+	 */
 	private void CreateSessions() throws SmppClientBootstrapException, SmppEstablishConnectionException {
 		if (smppConfig.getConnectSMSSessionOnAddListener() == true) {
 			this.createSmsSession();	
@@ -215,6 +221,11 @@ public class SmppSender implements Sender {
 		}
 	}
 
+	/**
+	 * Create 'SMS' Session
+	 * @throws SmppClientBootstrapException
+	 * @throws SmppEstablishConnectionException
+	 */
 	private void createSmsSession() throws SmppClientBootstrapException, SmppEstablishConnectionException {
 		if ((this.smsSession == null) || (!this.smsSession.isInitialized())) {
 			this.smsSession = this.createSession();
@@ -226,6 +237,9 @@ public class SmppSender implements Sender {
 		this.smsSession.setIncomingMessageListenerList(inboundMessageListenerList);
 	}
 
+	/**
+	 * Create 'Flash Notification' Session
+	 */
 	private void createFlashNotificationSession() throws SmppClientBootstrapException, SmppEstablishConnectionException {
 		if ((this.flashNotificationSession == null) || (!this.flashNotificationSession.isInitialized())) {
 			this.flashNotificationSession = this.createSession();
@@ -237,6 +251,11 @@ public class SmppSender implements Sender {
 		this.flashNotificationSession.setIncomingMessageListenerList(inboundMessageListenerList);
 	}
 
+	/**
+	 * Create 'HLR' Session
+	 * @throws SmppClientBootstrapException
+	 * @throws SmppEstablishConnectionException
+	 */
 	private void createHlrSession() throws SmppClientBootstrapException, SmppEstablishConnectionException {
 		if ((this.hlrRequestSession == null) || (!this.hlrRequestSession.isInitialized())) {
 			this.hlrRequestSession = this.createSession();
@@ -248,6 +267,11 @@ public class SmppSender implements Sender {
 		this.hlrRequestSession.setIncomingMessageListenerList(inboundMessageListenerList);
 	}
 
+	/**
+	 * Create new Session - 'SmppSessionWrapper' object
+	 * @return
+	 * @throws SmppClientBootstrapException
+	 */
 	private SmppSessionWrapper createSession() throws SmppClientBootstrapException {
 		if (this.defaultClientBootstrap.get() == null) {
 			try {
@@ -273,13 +297,9 @@ public class SmppSender implements Sender {
 	 * @throws CreateSmsException 
 	 */
 	private SMS createSMS(String senderAddress, String recipientAddress, String messageText) throws CreateSmsException {				
-		SMS sms = new SMS();	
+		SMS sms = new SMS(senderAddress, recipientAddress, messageText);	
 
 		try {		
-			sms.setSenderAddress(senderAddress);	
-			sms.addRecipientAddress(recipientAddress);
-			sms.setMessageText(messageText);
-
 			sms.resolveSrcTonAndNpiOptions();
 			sms.resolveDestTonAndNpiOptions(recipientAddress);	
 			sms.encodeUnicodeTextToBinary();

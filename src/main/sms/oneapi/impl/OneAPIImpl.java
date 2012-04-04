@@ -3,7 +3,6 @@ package sms.oneapi.impl;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URLEncoder;
-
 import sms.common.exceptiontype.QueryDeliveryStatusException;
 import sms.common.exceptiontype.RequestError;
 import sms.common.response.RetrieveSMSResponse;
@@ -29,7 +28,7 @@ public class OneAPIImpl implements OneAPI {
 	private static JSONRequest<RetrieveSMSResponse> retrieveSMSprocessor=new JSONRequest<RetrieveSMSResponse>(new RetrieveSMSResponse());
 	private static JSONRequest<SMSMessageReceiptSubscriptionResponse> smsMessageReceiptSubscriptionProcessor=new JSONRequest<SMSMessageReceiptSubscriptionResponse>(new SMSMessageReceiptSubscriptionResponse());
 	private static JSONRequest<LocationResponse> locationRequester=new JSONRequest<LocationResponse>(new LocationResponse());
-	
+
 	//*************************OneAPIImpl initialization***********************************************************************************************************************************************
 	/**
 	 * Initialize 'OneAPIImpl' object 
@@ -45,7 +44,7 @@ public class OneAPIImpl implements OneAPI {
 	public OneAPIImpl(OneAPIConfig oneAPIConfig) {
 		this.oneAPIConfig = oneAPIConfig;
 	}
-	
+
 	//*************************OneAPIImpl public******************************************************************************************************************************************************
 	/**
 	 * Locate a single specified mobile terminal to the specified level of accuracy
@@ -61,7 +60,7 @@ public class OneAPIImpl implements OneAPI {
 
 		return this.locateMultipleTerminals(addresses, requestedAccuracy);
 	}
-	
+
 	/**
 	 * Locate multiple specified mobile terminals to the specified level of accuracy
 	 * @param addresses (mandatory) The MSISDN or Anonymous Customer Reference of the mobile device to locate. The protocol and Ô+Ő identifier must be used for MSISDN. Do not URL escape prior to passing to the locateMultipleTerminals function as this will be done by the API. Note that if any element of the address array is null it will not be sent to the OneAPI server.
@@ -72,27 +71,27 @@ public class OneAPIImpl implements OneAPI {
 	@Override
 	public LocationResponse locateMultipleTerminals(String[] addresses, int requestedAccuracy) throws LocateTerminalException {
 		if (addresses == null) throw new LocateTerminalException("'addresses' parameter is null");
-		
+
 		LocationResponse response=new LocationResponse();
-			
+
 		int responseCode=0;
 		String contentType = null;
 
 		try {
-			
-			StringBuilder buildUrl = new StringBuilder(this.oneAPIConfig.getSmsMessagingRootUrl());
+
+			StringBuilder buildUrl = new StringBuilder(this.oneAPIConfig.getSmsMessagingBaseUrl());
 			buildUrl.append("/LocationService/");
 			buildUrl.append(URLEncoder.encode(this.oneAPIConfig.getVersionOneAPISMS(), OneApiConnection.CHAR_ENCODING));	
 			buildUrl.append("/location/queries/location?requestedAccuracy=");	
 			buildUrl.append(URLEncoder.encode(String.valueOf(requestedAccuracy), OneApiConnection.CHAR_ENCODING));	
-			
+
 			for (String address:addresses) {
 				if (address != null) { 
 					buildUrl.append("&address=");	
 					buildUrl.append(URLEncoder.encode(address, OneApiConnection.CHAR_ENCODING));
 				}
 			}
-			
+
 			String url = buildUrl.toString();
 			HttpURLConnection connection =  OneApiConnection.setupConnection(url, this.oneAPIConfig);		
 			responseCode=connection.getResponseCode();
@@ -102,7 +101,7 @@ public class OneAPIImpl implements OneAPI {
 			response.setContentType(contentType);
 			response=locationRequester.getResponse(connection,  OneApiConnection.OK); 		
 			return response;
-			
+
 		} catch (Exception e) {
 			response.setHTTPResponseCode(responseCode);
 			response.setContentType(contentType);
@@ -110,7 +109,7 @@ public class OneAPIImpl implements OneAPI {
 			throw new LocateTerminalException(e.getMessage(), e, response);
 		}
 	}
-	
+
 	/**
 	 * Query the delivery status over OneAPI for an SMS sent to one or more mobile terminals                       
 	 * @param senderAddress (mandatory) is the address from which SMS messages are being sent. Do not URL encode this value prior to passing to this function
@@ -121,8 +120,8 @@ public class OneAPIImpl implements OneAPI {
 	@Override
 	public SMSSendDeliveryStatusResponse queryDeliveryStatus(String senderAddress, String requestId) throws QueryDeliveryStatusException {
 		SMSSendDeliveryStatusResponse response = new SMSSendDeliveryStatusResponse();
-		StringBuilder buildUrl = new StringBuilder(this.oneAPIConfig.getSmsMessagingRootUrl());	
-		
+		StringBuilder buildUrl = new StringBuilder(this.oneAPIConfig.getSmsMessagingBaseUrl());	
+
 		try {					
 			buildUrl.append("/QuerySMSService/");
 			buildUrl.append(URLEncoder.encode(this.oneAPIConfig.getVersionOneAPISMS(), OneApiConnection.CHAR_ENCODING));
@@ -131,14 +130,14 @@ public class OneAPIImpl implements OneAPI {
 			buildUrl.append("/requests/");
 			buildUrl.append(URLEncoder.encode(requestId,  OneApiConnection.CHAR_ENCODING));
 			buildUrl.append("/deliveryInfos");
-			
+
 		} catch (Exception e) {			
 			throw new QueryDeliveryStatusException(e.getMessage(), e, response);	
 		}	
-		
+
 		return this.queryDeliveryStatusByUrl(buildUrl.toString());
 	}
-	
+
 	/**
 	 * Query the delivery status over OneAPI for an SMS sent to one or more mobile terminals                         
 	 * @param resourceUrl (mandatory) - url to query the delivery status. For convenience this URI is also included in the 'SMSSendResponse' response body as the resourceURL pair within the resourceReference object. 
@@ -208,13 +207,13 @@ public class OneAPIImpl implements OneAPI {
 
 		int responseCode=0;
 		try {
-			StringBuilder buildUrl = new StringBuilder(this.oneAPIConfig.getSmsMessagingRootUrl());
+			StringBuilder buildUrl = new StringBuilder(this.oneAPIConfig.getSmsMessagingBaseUrl());
 			buildUrl.append("/SMSDeliveryService/");
 			buildUrl.append(URLEncoder.encode(this.oneAPIConfig.getVersionOneAPISMS(), OneApiConnection.CHAR_ENCODING));
 			buildUrl.append("/smsmessaging/outbound/");
 			buildUrl.append(URLEncoder.encode(senderAddress, OneApiConnection.CHAR_ENCODING));
 			buildUrl.append("/subscriptions");
-			
+
 			String url = buildUrl.toString();	
 			HttpURLConnection connection =  OneApiConnection.setupConnection(url,  OneApiConnection.URL_ENCODED_CONTENT_TYPE, this.oneAPIConfig);
 			connection.setDoOutput(true);
@@ -244,21 +243,21 @@ public class OneAPIImpl implements OneAPI {
 	 */
 	@Override
 	public int cancelDeliveryNotifications(String subscriptionId) throws CancelDeliveryNotificationsException {	
-		StringBuilder buildUrl = new StringBuilder(this.oneAPIConfig.getSmsMessagingRootUrl());
+		StringBuilder buildUrl = new StringBuilder(this.oneAPIConfig.getSmsMessagingBaseUrl());
 
 		try {		
 			buildUrl.append("/CancelSMSDeliveryService/");
 			buildUrl.append(URLEncoder.encode(this.oneAPIConfig.getVersionOneAPISMS(), OneApiConnection.CHAR_ENCODING));
 			buildUrl.append("/outbound/subscriptions/");
 			buildUrl.append(URLEncoder.encode(subscriptionId,  OneApiConnection.CHAR_ENCODING));
-			
+
 		} catch (Exception e) {		
 			throw new CancelDeliveryNotificationsException(e.getMessage(), e);
 		}	
 
 		return this.cancelDeliveryNotificationsByUrl(buildUrl.toString());
 	}
-	
+
 	/**
 	 * Stop subscribing to delivery status notifications over OneAPI for all your sent SMS                         
 	 * @param resourceUrl (mandatory) - url to stop subscribing to delivery status notifications. For convenience this URI is also included in the 'SMSDeliveryReceiptSubscriptionResponse' response body as the resourceURL pair within the deliveryReceiptSubscription object. 
@@ -279,7 +278,7 @@ public class OneAPIImpl implements OneAPI {
 			throw new CancelDeliveryNotificationsException(e.getMessage(), e);
 		}	
 	}
-	
+
 	/**
 	 * Retrieve SMS messages sent to your Web application over OneAPI
 	 * @param registrationId (mandatory) - loaded from the client 'OneAPIConfig' object
@@ -290,7 +289,7 @@ public class OneAPIImpl implements OneAPI {
 	public RetrieveSMSResponse retrieveInboundMessages() throws RetrieveInboundMessagesException {
 		return this.retrieveInboundMessages(this.oneAPIConfig.getRetrieveInboundMessagesRegistrationId(), 0);	
 	}
-	
+
 	/**
 	 * Retrieve SMS messages sent to your Web application over OneAPI
 	 * @param registrationId (mandatory) is agreed with your network operator for receiving messages
@@ -301,7 +300,7 @@ public class OneAPIImpl implements OneAPI {
 	public RetrieveSMSResponse retrieveInboundMessages(String registrationId) throws RetrieveInboundMessagesException {
 		return this.retrieveInboundMessages(registrationId, 0);
 	}
-	
+
 	/**
 	 * Retrieve SMS messages sent to your Web application over OneAPI
 	 * @param registrationId (mandatory) is agreed with your network operator for receiving messages
@@ -316,18 +315,18 @@ public class OneAPIImpl implements OneAPI {
 		int responseCode=0;
 		String contentType = null;
 		try {		
-			StringBuilder buildUrl = new StringBuilder(this.oneAPIConfig.getSmsMessagingRootUrl());
+			StringBuilder buildUrl = new StringBuilder(this.oneAPIConfig.getSmsMessagingBaseUrl());
 			buildUrl.append("/RetrieveSMSService/");
 			buildUrl.append(URLEncoder.encode(this.oneAPIConfig.getVersionOneAPISMS(), OneApiConnection.CHAR_ENCODING));	
 			buildUrl.append("/smsmessaging/inbound/registrations/");	
 			buildUrl.append(URLEncoder.encode(registrationId,  OneApiConnection.CHAR_ENCODING));
 			buildUrl.append("/messages");
-				
+
 			if (maxBatchSize > 0) {
 				buildUrl.append("?maxBatchSize=");
 				buildUrl.append(URLEncoder.encode(String.valueOf(maxBatchSize),  OneApiConnection.CHAR_ENCODING));
 			}
-			
+
 			String url = buildUrl.toString();
 			HttpURLConnection connection =  OneApiConnection.setupConnection(url, this.oneAPIConfig);		
 			responseCode=connection.getResponseCode();
@@ -383,11 +382,11 @@ public class OneAPIImpl implements OneAPI {
 
 		int responseCode=0;
 		try {
-			StringBuilder buildUrl = new StringBuilder(this.oneAPIConfig.getSmsMessagingRootUrl());		
+			StringBuilder buildUrl = new StringBuilder(this.oneAPIConfig.getSmsMessagingBaseUrl());		
 			buildUrl.append("/SMSReceiptService/");
 			buildUrl.append(URLEncoder.encode(this.oneAPIConfig.getVersionOneAPISMS(), OneApiConnection.CHAR_ENCODING));	
 			buildUrl.append("/smsmessaging/inbound/subscriptions");
-			
+
 			String url = buildUrl.toString();
 			HttpURLConnection connection =  OneApiConnection.setupConnection(url,  OneApiConnection.URL_ENCODED_CONTENT_TYPE, this.oneAPIConfig);		
 			connection.setDoOutput(true);
@@ -418,21 +417,21 @@ public class OneAPIImpl implements OneAPI {
 	 */
 	@Override
 	public int cancelReceiptNotifications(String subscriptionId) throws CancelReceiptNotificationsException {	
-		StringBuilder buildUrl = new StringBuilder(this.oneAPIConfig.getSmsMessagingRootUrl());
-		
+		StringBuilder buildUrl = new StringBuilder(this.oneAPIConfig.getSmsMessagingBaseUrl());
+
 		try {		
 			buildUrl.append("/CancelSMSReceiptService/");
 			buildUrl.append(URLEncoder.encode(this.oneAPIConfig.getVersionOneAPISMS(), OneApiConnection.CHAR_ENCODING));
 			buildUrl.append("/inbound/subscriptions/");
 			buildUrl.append(URLEncoder.encode(subscriptionId, OneApiConnection.CHAR_ENCODING));
-		
+
 		} catch (Exception e) {
 			throw new CancelReceiptNotificationsException(e.getMessage(), e);
 		}	
-		
+
 		return this.cancelReceiptNotificationsByUrl(buildUrl.toString());
 	}
-	
+
 	/**
 	 * Stop subscribing to message receipt notifications for all your received SMS over OneAPI                     
 	 * @param resourceUrl (mandatory) - url to stop subscribing to message receipt notifications. For convenience this URI is also included in the 'SMSMessageReceiptSubscriptionResponse' response body as the resourceURL pair within the resourceReference object. 

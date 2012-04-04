@@ -77,7 +77,7 @@ public class SmppSessionWrapper {
 	}
 
 	public void bind(SmppConfig smppSmsConfig) throws SmppEstablishConnectionException  {
-		//Create session         
+		// create session         
 		DefaultSmppSessionHandler sessionHandler = new ClientSmppSessionHandler();		 
 		// create a session by having the bootstrap connect a
 		// socket, send the bind request, and wait for a bind response
@@ -126,10 +126,16 @@ public class SmppSessionWrapper {
 		}
 	}
 
+	/**
+	 * SubmitSm using the 'recipientAddress' parameter
+	 * @param recipientAddress
+	 * @return SMSSendResponse
+	 * @throws SmppSubmitSmException
+	 */
 	public SMSSendResponse submitSm(String recipientAddress) throws SmppSubmitSmException {
-		
+
 		SMSSendResponse smsSendReponse = new SMSSendResponse(); 
-		
+
 		SubmitSm submit0 = new SubmitSm();
 		submit0.setRegisteredDelivery(this.registeredDelivery);
 		Address address = new Address();
@@ -138,10 +144,10 @@ public class SmppSessionWrapper {
 
 		try {
 			SubmitSmResp submitSmResp = session.submit(submit0, 10000);
-			
+
 			smsSendReponse.addSMPPResponse(recipientAddress, submitSmResp.getResultMessage());
 			return smsSendReponse;
-			
+
 		} catch (Exception e) {			
 			String errorMessage = e.getMessage();		
 			if (e instanceof SmppChannelException) {
@@ -155,10 +161,16 @@ public class SmppSessionWrapper {
 		}	
 	}
 
+	/**
+	 * SubmitSm using the 'SMS' object data
+	 * @param sms
+	 * @return SMSSendResponse
+	 * @throws SmppSubmitSmException
+	 */
 	public SMSSendResponse submitSm(SMS sms) throws SmppSubmitSmException {   
 
 		SMSSendResponse smsSendReponse = new SMSSendResponse(); 	
-		
+
 		try {
 			if (sms.isEncodeUnicodeTextToBinary()) {
 				sms.encodeUnicodeTextToBinary();
@@ -200,9 +212,9 @@ public class SmppSessionWrapper {
 				SubmitSmResp submitSmResp = session.submit(submit0, 10000);
 				smsSendReponse.addSMPPResponse(recipientAddress, submitSmResp.getResultMessage());
 			}
-			
+
 			return smsSendReponse;	
-			
+
 		} catch (Exception e) {
 			String errorMessage = e.getMessage();		
 			if (e instanceof SmppChannelException) {
@@ -215,7 +227,13 @@ public class SmppSessionWrapper {
 			throw new SmppSubmitSmException(errorMessage, e);
 		}	
 	}
-	
+
+	/**
+	 * Encode text to binary using correct 'CHARSET'
+	 * @param sms
+	 * @return textBytes
+	 * @throws UnsupportedEncodingException
+	 */
 	private byte[] getBytesFromMessage(SMS sms) throws UnsupportedEncodingException {
 		byte[] textBytes = null;		
 		if ((sms.getMessageBinary() != null) && (!sms.getMessageBinary().isEmpty())) {
@@ -234,6 +252,11 @@ public class SmppSessionWrapper {
 		return textBytes;
 	}
 
+	/**
+	 * Class used to handle DLR-s and INBOUND SMS messages
+	 * @author vavukovic
+	 *
+	 */
 	protected class ClientSmppSessionHandler extends DefaultSmppSessionHandler {
 		protected ClientSmppSessionHandler() {
 			super(logger);
@@ -243,7 +266,6 @@ public class SmppSessionWrapper {
 		@Override
 		public void firePduRequestExpired(PduRequest pduRequest) {
 			logger.warn("PDU request expired: {}", pduRequest);
-			//TODO Test with slow simulator
 		}
 
 		@SuppressWarnings("rawtypes")
@@ -270,6 +292,10 @@ public class SmppSessionWrapper {
 			}	
 		}
 
+		/**
+		 * Create 'DLR Response' using 'deliverSm' data and trigger 'DeliveryReportListener' listener 
+		 * @param deliverSm
+		 */
 		private void HandleDeliveryReport(DeliverSm deliverSm) {	
 			if (deliveryReportListenerList != null) {						
 				//Create response
@@ -285,7 +311,7 @@ public class SmppSessionWrapper {
 				DeliveryInfoList deliveryInfoList = new DeliveryInfoList();
 				deliveryInfoList.setDeliveryInfo(deliveryInfos);
 				response.setDeliveryInfoList(deliveryInfoList);
-						
+
 				Object[] listeners = deliveryReportListenerList.getListenerList();		
 				// Each listener occupies two elements - the first is the listener class
 				// and the second is the listener instance
@@ -297,27 +323,31 @@ public class SmppSessionWrapper {
 			}		
 		}
 
+		/**
+		 * Create 'INBOUND SMS Response' using 'deliverSm' data and trigger 'InboundMessageListener' listener 
+		 * @param deliverSm
+		 */
 		private void HandleIncmomingMessage(DeliverSm deliverSm) {
 			if (inboundMessageListenerList != null) {
 				//Create response
 				RetrieveSMSResponse response = new RetrieveSMSResponse();
-				//Create inbound message using the DeliverSm
+				//Create INBOUND message using the DeliverSm
 				InboundSMSMessage inboundMessage = new InboundSMSMessage();
 				inboundMessage.setSenderAddress(deliverSm.getSourceAddress().getAddress());
 				inboundMessage.setDestinationAddress(deliverSm.getDestAddress().getAddress());
 				inboundMessage.setMessage(new String(deliverSm.getShortMessage()));
-		
-				//Create inbound messages array
+
+				//Create INBOUND messages array
 				InboundSMSMessage[] inboundMessages = new InboundSMSMessage[1];
 				//Add message to the array
 				inboundMessages[0] = inboundMessage;
-				//Create inbound message list
+				//Create INBOUND message list
 				InboundSMSMessageList inboundMessageList = new InboundSMSMessageList();
 				inboundMessageList.setNumberOfMessagesInThisBatch(1);
 				inboundMessageList.setTotalNumberOfPendingMessages(0);
 				inboundMessageList.setInboundSMSMessage(inboundMessages);
-				
-				//set inbound messages list
+
+				//set INBOUND messages list
 				response.setInboundSMSMessageList(inboundMessageList);
 
 				Object[] listeners = inboundMessageListenerList.getListenerList();
@@ -330,7 +360,11 @@ public class SmppSessionWrapper {
 				}	
 			}
 		}	
-		
+
+		/**
+		 * Get session type (sms. flash, hlr)
+		 * @return dlrType
+		 */
 		private DLRType resolveDlrType() {
 			DLRType dlrType = DLRType.sms;
 
@@ -343,6 +377,11 @@ public class SmppSessionWrapper {
 			return dlrType;
 		}
 
+		/**
+		 * Check by 'esmClass' if 'deliverSm' is DLR 
+		 * @param esmClass
+		 * @return result
+		 */
 		private boolean isDeliveryReport(byte esmClass) {
 			boolean result = false;
 			if ((esmClass & (byte) 0x3c) > 0) {

@@ -10,7 +10,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import javax.swing.event.EventListenerList;
 import org.codehaus.jackson.map.ObjectMapper;
-
 import sms.common.exceptiontype.DeliveryReportListenerException;
 import sms.common.exceptiontype.RequestError;
 import sms.common.model.DeliveryReportListener;

@@ -1,19 +1,15 @@
 package sms.common.model;
 
 import java.io.Serializable;
-
-
 import org.codehaus.jackson.annotate.JsonIgnore;
-
 import sms.oneapi.util.DateParser;
-
 
 /**
  * InboundMessage contains the main message information for an SMS message (not including attachment information)
  */
 public class InboundSMSMessage implements Serializable {
 	private static final long serialVersionUID = -5772672709791289909L;
-	
+
 	/**
 	 * the date/time that the SMS message was sent
 	 */
@@ -38,7 +34,7 @@ public class InboundSMSMessage implements Serializable {
 	 * the sender MSISDN or other identifying number
 	 */
 	private String senderAddress=null;
-	
+
 	/**
 	 * return the date/time that the SMS message was sent. The date/time is formatted as an ISO 8601 format string
 	 */
@@ -63,7 +59,7 @@ public class InboundSMSMessage implements Serializable {
 	 * return the sender MSISDN or other identifying number
 	 */
 	public String getSenderAddress() { return senderAddress; }
-	
+
 	/**
 	 * alternate method to get the message date/time in java.util.Date format
 	 */
@@ -94,20 +90,20 @@ public class InboundSMSMessage implements Serializable {
 	 * set the sender MSISDN or other identifying number. This is called internally to set the contents according to the JSON response. 
 	 */
 	public void setSenderAddress(String senderAddress) { this.senderAddress=senderAddress; }
-	
+
 	@JsonIgnore
 	/**
 	 * set the date/time that the SMS message was sent. This time formatted as java.util.Date 
 	 */
 	public void setDateTimeAsDate(java.util.Date dateTime) { this.dateTime=dateTime; }
-				
+
 	/**
 	 * default constructor
 	 */
 	public InboundSMSMessage() {
-		
+
 	}	
-	
+
 	/**
 	 * utility constructor to create an InboundMessage class with all fields set
 	 * @param dateTime
@@ -125,7 +121,7 @@ public class InboundSMSMessage implements Serializable {
 		this.resourceURL=resourceURL;
 		this.senderAddress=senderAddress;
 	}
-	
+
 	/** 
 	 * generate a textual representation of the InboundMessage including all nested elements and classes 
 	 */

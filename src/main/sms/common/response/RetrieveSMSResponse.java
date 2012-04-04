@@ -7,7 +7,7 @@ import sms.common.model.InboundSMSMessageList;
  * The full response from the OneAPI server for a request to list received SMS messages
  */
 public class RetrieveSMSResponse implements java.io.Serializable {
-	
+
 	private static final long serialVersionUID = 5555314302096622836L;
 
 	/**
@@ -37,7 +37,7 @@ public class RetrieveSMSResponse implements java.io.Serializable {
 	 * return the server generated error response (from the JSON based error response)
 	 */
 	public RequestError getRequestError() { return requestError; }
-	
+
 	/**
 	 * set the stored HTTP response code
 	 * @param httpResponseCode sets the stored HTTP response code
@@ -103,5 +103,5 @@ public class RetrieveSMSResponse implements java.io.Serializable {
 		}
 		return buffer.toString();
 	}
-	
+
 }

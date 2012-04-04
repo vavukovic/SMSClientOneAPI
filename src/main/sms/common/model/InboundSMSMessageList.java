@@ -23,7 +23,7 @@ public class InboundSMSMessageList implements java.io.Serializable {
 	 * set the inboundSMSMessage array. This is called internally to set the contents according to the JSON response.
 	 */
 	public void setInboundSMSMessage(InboundSMSMessage[] inboundSMSMessage) { this.inboundSMSMessage=inboundSMSMessage; }
-	
+
 	/**
 	 * the number of messages returned for this batch
 	 */
@@ -36,7 +36,7 @@ public class InboundSMSMessageList implements java.io.Serializable {
 	 * the totalNumberOfPendingMessages awaiting retrieval from gateway storage
 	 */
 	Integer totalNumberOfPendingMessages=null;
-			
+
 	/**
 	 * return the number of messages returned for this batch
 	 */
@@ -49,7 +49,7 @@ public class InboundSMSMessageList implements java.io.Serializable {
 	 * return the totalNumberOfPendingMessages awaiting retrieval from gateway storage
 	 */
 	public Integer getTotalNumberOfPendingMessages() { return totalNumberOfPendingMessages; }
-	
+
 	/**
 	 * set the number of messages returned for this batch. This is called internally to set the contents according to the JSON response.
 	 */
@@ -62,7 +62,7 @@ public class InboundSMSMessageList implements java.io.Serializable {
 	 * set the totalNumberOfPendingMessages awaiting retrieval from gateway storage. This is called internally to set the contents according to the JSON response.
 	 */
 	public void setTotalNumberOfPendingMessages(Integer totalNumberOfPendingMessages) { this.totalNumberOfPendingMessages=totalNumberOfPendingMessages; }
-	
+
 	/** 
 	 * generate a textual representation of the inboundSMSMessageList instance including nested elements and classes 
 	 */
@@ -74,7 +74,7 @@ public class InboundSMSMessageList implements java.io.Serializable {
 		buffer.append(resourceURL);
 		buffer.append(", totalNumberOfPendingMessages = ");
 		buffer.append(totalNumberOfPendingMessages);
-		
+
 		buffer.append(", inboundSMSMessage = {");
 		if (inboundSMSMessage!=null) {
 			for (int i=0; i<inboundSMSMessage.length; i++) {
@@ -86,8 +86,8 @@ public class InboundSMSMessageList implements java.io.Serializable {
 			}
 		}
 		buffer.append("} ");
-		
+
 		return buffer.toString();
-		
+
 	}
 }

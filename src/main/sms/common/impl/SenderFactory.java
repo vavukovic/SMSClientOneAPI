@@ -7,7 +7,7 @@ import sms.smpp.config.SmppConfig;
 import sms.smpp.impl.SmppSender;
 
 public class SenderFactory {
-	
+
 	/**
 	 * Create 'OneAPI' sender
 	 * @param oneApiConfig
@@ -17,7 +17,7 @@ public class SenderFactory {
 	{
 		return this.CreateSender(SenderType.ONEAPI, oneApiConfig, null);
 	}
-	
+
 	/**
 	 * Create 'SMPP' sender
 	 * @param smppConfig
@@ -27,7 +27,7 @@ public class SenderFactory {
 	{
 		return this.CreateSender(SenderType.SMPP, null, smppConfig);
 	}
-	
+
 	/**
 	 * Create sender depending on the "sender" parameter (SenderType.ONEAPI, SenderType.SMPP)
 	 * @param senderType

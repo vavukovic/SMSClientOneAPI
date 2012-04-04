@@ -2,18 +2,16 @@ package sms.common.response;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import sms.common.exceptiontype.RequestError;
 import sms.common.model.ResourceReference;
 import sms.smpp.response.SMPPResponse;
-
 
 /**
  * The full response from the OneAPI server for a request to send an SMS Messgage
  */
 public class SMSSendResponse implements java.io.Serializable {
 	private static final long serialVersionUID = 1746683143328583536L;
-	
+
 	/**
 	 * contains the HTTP response code returned from the server
 	 */
@@ -28,7 +26,7 @@ public class SMSSendResponse implements java.io.Serializable {
 	 * @see RequestError
 	 */
 	RequestError requestError=null;
-	
+
 	/**
 	 * contains SMPP "submitSm" responses list
 	 */
@@ -46,7 +44,7 @@ public class SMSSendResponse implements java.io.Serializable {
 	 * return the server generated error response (from the JSON based error response)
 	 */
 	public RequestError getRequestError() { return requestError; }
-	
+
 	/**
 	 * set the stored HTTP response code
 	 * @param httpResponseCode sets the stored HTTP response code
@@ -91,9 +89,9 @@ public class SMSSendResponse implements java.io.Serializable {
 	 * @param resourceReference
 	 */
 	public void setResourceReference(ResourceReference resourceReference) { this.resourceReference=resourceReference; }
-		
+
 	/**
-	 * add sent message response
+	 * add sent SMPP message response
 	 * @param recipientAddress
 	 * @param response
 	 */
@@ -103,9 +101,9 @@ public class SMSSendResponse implements java.io.Serializable {
 		}
 		smppResponseList.add(new SMPPResponse(recipientAddress, response));
 	}
-	
+
 	/**
-	 *  get sent messages response list 
+	 * get sent SMPP messages response list 
 	 * @return List<SMPPResponse> - 'recipient', 'response' pair list
 	 */
 	public List<SMPPResponse> getSMPPResponseList() {

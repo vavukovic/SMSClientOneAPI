@@ -18,27 +18,35 @@ public class MainConfig  {
 	private SmppConfig smppConfig;
 	private OneAPIConfig oneAPIConfig;	
 	private SenderType senderType = SenderType.ONEAPI;
-	private String configFileName = "client.cfg";
+	private final String CONFIG_FILE_NAME = "client.cfg";
 
 	public MainConfig() {  
 		super();
 	}
-	
+
+	/**
+	 * Save 'OneAPI' and 'SMPP' configuration data to 'client.cfg' file
+	 * @throws ConfigException
+	 */
 	public void saveToConfigFile() throws ConfigException  {
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			mapper.writeValue(new File(this.configFileName), this);
+			mapper.writeValue(new File(this.CONFIG_FILE_NAME), this);
 		} catch (Exception e) {
 			throw new ConfigException(e.getMessage(), e);
 		}
 	}
 
+	/**
+	 * Load OneAPI' and 'SMPP' configuration data from 'client.cfg' file
+	 * @throws ConfigException
+	 */
 	public void loadFromConfigFile() throws ConfigException {
 		MainConfig tmpConfiguration = new MainConfig();
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.configure(org.codehaus.jackson.JsonParser.Feature.ALLOW_COMMENTS, true);
 		try {
-			tmpConfiguration = mapper.readValue(new File(this.configFileName), MainConfig.class);
+			tmpConfiguration = mapper.readValue(new File(this.CONFIG_FILE_NAME), MainConfig.class);
 		} catch (Exception e) {
 			throw new ConfigException(e.getMessage(), e);
 		}
@@ -50,24 +58,31 @@ public class MainConfig  {
 
 	@JsonIgnore
 	public String getConfigFileName() {
-		return configFileName;
+		return CONFIG_FILE_NAME;
 	}
-	
-	@JsonIgnore
-	public void setConfigFileName(String configFileName) {
-		this.configFileName = configFileName;
-	}
-	
+
+	/**
+	 * Get sender type configured to send SMS  (SenderType.ONEAPI, SenderType.SMPP)
+	 * @return senderType
+	 */
 	@JsonProperty("senderType")
 	public SenderType getSenderType() {
 		return senderType;
 	}
 
+	/**
+	 * Set sender type configured to send SMS  (SenderType.ONEAPI, SenderType.SMPP)
+	 * @param senderType
+	 */
 	@JsonProperty("senderType")
 	public void setSenderType(SenderType senderType) {
 		this.senderType = senderType;
 	}
 
+	/**
+	 * Get 'OneAPI' configuration data object
+	 * @return
+	 */
 	@JsonProperty("oneAPIConfig")
 	public OneAPIConfig getOneAPI() {
 		if (oneAPIConfig == null) {
@@ -76,11 +91,19 @@ public class MainConfig  {
 		return oneAPIConfig;
 	}
 
+	/**
+	 * Set 'OneAPI' configuration data object
+	 * @return oneAPIConfig
+	 */
 	@JsonProperty("oneAPIConfig")
 	public void setOneAPI(OneAPIConfig value) {
 		this.oneAPIConfig = value;
 	}
-	
+
+	/**
+	 *  Get 'SMPP' configuration data object
+	 * @return smppConfig
+	 */
 	@JsonProperty("smppConfig")
 	public SmppConfig getSmpp() {
 		if (smppConfig == null) {
@@ -89,6 +112,10 @@ public class MainConfig  {
 		return smppConfig;
 	}
 
+	/**
+	 * Set 'SMPP' configuration data object
+	 * @param value
+	 */
 	@JsonProperty("smppConfig")
 	public void setSmpp(SmppConfig value) {
 		this.smppConfig = value;

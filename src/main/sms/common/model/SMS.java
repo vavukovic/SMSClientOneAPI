@@ -16,7 +16,6 @@ public class SMS {
 	private String notifyURL = null;
 	private String senderName = null;
 	private String callbackData = null;
-	
 	private boolean sendAsFlashNotification = false;
 	private String messageBinary = "";
 	private int datacoding = 0;
@@ -35,7 +34,7 @@ public class SMS {
 	public SMS() {
 		super();
 	}
-	
+
 	/**
 	 * Initialize SMS object using mandatory parameters
 	 * @param senderAddress
@@ -47,7 +46,7 @@ public class SMS {
 		this.addRecipientAddress(recipientsAddress);
 		this.setMessageText(messageText);
 	}
-	
+
 	/**
 	 * (mandatory) is the address to whom a responding SMS may be sent
 	 * @return senderAddress
@@ -354,7 +353,7 @@ public class SMS {
 	public boolean isEncodeUnicodeTextToBinary() {
 		return encodeUnicodeTextToBinary;
 	}
-	
+
 	/**
 	 * (optional) default = false, determines if the UNICODE text will be automatically converted to binary and 'Data Coding' parameter set to '8'
 	 * @param encodeUnicodeTextToBinary
@@ -418,7 +417,7 @@ public class SMS {
 			this.setMessageText("");
 		}		
 	}
-	
+
 	/**
 	 * Resolve 'Source-Ton' and 'Source-Npi' parameters automatically depending on the 'Sender Address' value
 	 */

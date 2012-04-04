@@ -19,12 +19,12 @@ import sms.smpp.config.SmppConfig;
 import com.cloudhopper.commons.charset.GSMCharset;
 
 public class SMSClient extends OneAPIImpl implements Sender  {
-	
+
 	//Contains methods to send SMS messages. Configuration property 'senderType' determines if it the 'sender' will be 'OneAPI' or 'SMPP' type.
 	private Sender sender = null;
 	//Used to resolve 'sender' object type ('OneAPI', 'SMPP')
 	private SenderFactory factory = new SenderFactory();
-		
+
 	//*************************SMSClient initialization***********************************************************************************************************************************************
 	/**
 	 * Initialize SMS client and load data from the 'client.cfg' configuration file 
@@ -32,17 +32,17 @@ public class SMSClient extends OneAPIImpl implements Sender  {
 	 * @throws ConfigException 
 	 */
 	public SMSClient() throws ConfigException {	
-	    //Initialize main configuration
+		//Initialize main configuration
 		MainConfig mainConfig = new MainConfig();
-	    //Load data from the configuration 'client.cfg' file
+		//Load data from the configuration 'client.cfg' file
 		mainConfig.loadFromConfigFile();
-	  
-	    //OneAPI configuration used in extended 'OneAPIImpl' class
-	    this.oneAPIConfig = mainConfig.getOneAPI();    
-	    //Create 'sender' object used to send SMS messages depending on the configuration "SenderType" property
-	    this.sender = this.factory.CreateSender(mainConfig.getSenderType(), this.oneAPIConfig, mainConfig.getSmpp());		
+
+		//OneAPI configuration used in extended 'OneAPIImpl' class
+		this.oneAPIConfig = mainConfig.getOneAPI();    
+		//Create 'sender' object used to send SMS messages depending on the configuration "SenderType" property
+		this.sender = this.factory.CreateSender(mainConfig.getSenderType(), this.oneAPIConfig, mainConfig.getSmpp());		
 	}
-	
+
 	/**
 	 * Initialize SMS client using specified 'oneAPIConfig' parameter 
 	 * @see SMS messages are send over the 'OneAPI' protocol
@@ -55,7 +55,7 @@ public class SMSClient extends OneAPIImpl implements Sender  {
 		//Create OneAPI 'sender' object used to send SMS messages
 		this.sender = this.factory.createOneAPISender(this.oneAPIConfig);	
 	}
-	
+
 	/**
 	 * Initialize OneAPI client using specified 'oneAPIConfig', 'senderConfig' parameters 
 	 * @see SMS messages are send over the SMPP protocol
@@ -69,8 +69,8 @@ public class SMSClient extends OneAPIImpl implements Sender  {
 		//Create SMPP 'sender' object used to send SMS messages
 		this.sender = this.factory.createSMPPSender(senderConfig);
 	}
-	
-	
+
+
 	//*************************SMSClient public***********************************************************************************************************************************************
 	/**
 	 * Supported sender types
@@ -78,7 +78,7 @@ public class SMSClient extends OneAPIImpl implements Sender  {
 	public enum SenderType {
 		ONEAPI, SMPP;
 	};
-	
+
 	/**
 	 *  Send an SMS to one or more mobile terminals using the customized 'SMS' object
 	 * @param sms - object containing data needed to be filled in order to send the SMS
@@ -122,7 +122,7 @@ public class SMSClient extends OneAPIImpl implements Sender  {
 	public void addInboundMessageListener(InboundMessageListener listener) throws InboundMessageListenerException {
 		this.sender.addInboundMessageListener(listener);	
 	}
-//
+	//
 	/**
 	 * Release client resources 
 	 */
@@ -130,7 +130,7 @@ public class SMSClient extends OneAPIImpl implements Sender  {
 	public void destroy() {
 		this.sender.destroy();
 	}
-	
+
 	/**
 	 * Send an 'Scheduled' SMS to one mobile terminal (SMS is not sent immediately but at scheduled time)
 	 * @See In case the specified 'messageText' is 'UNICODE' it is encoded to binary and 'DataCoding' parameter is automatically set to '8'. 'SrcTon', 'SrcNpi', 'DestTon', 'DestNpi' message parameters are resolved automatically depending on the specified 'senderAddress' and 'recipientAddress')
@@ -159,7 +159,7 @@ public class SMSClient extends OneAPIImpl implements Sender  {
 	public SMSSendResponse sendFlashNotification(String senderAddress, String recipientAddress, String messageText) throws CreateSmsException, SendSmsException, NotSupportedException {		
 		return this.sender.sendFlashNotification(senderAddress, recipientAddress, messageText);
 	}
-	
+
 	/**
 	 * Send HLR Request for one mobile terminal
 	 * @param destination (mandatory) is the address for whom HLR request is send
@@ -170,7 +170,7 @@ public class SMSClient extends OneAPIImpl implements Sender  {
 	public SMSSendResponse sendHLRRequest(String destination) throws SendHlrRequestException, NotSupportedException {		
 		return this.sender.sendHLRRequest(destination);
 	}
-	
+
 	/**
 	 * Get sender type (ONEAPI, SMPP)
 	 * @return SenderType
@@ -179,7 +179,7 @@ public class SMSClient extends OneAPIImpl implements Sender  {
 	public SenderType getSenderType() {
 		return this.sender.getSenderType();
 	}
-	
+
 	/**
 	 * Checks if specified text is 'UNICODE'
 	 * @param text
