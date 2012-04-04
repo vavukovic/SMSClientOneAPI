@@ -20,10 +20,10 @@ import com.cloudhopper.commons.charset.GSMCharset;
 
 public class SMSClient extends OneAPIImpl implements Sender  {
 
-	//Contains methods to send SMS messages. Configuration property 'senderType' determines if it the 'sender' will be 'OneAPI' or 'SMPP' type.
+	//Contains methods to send SMS messages
 	private Sender sender = null;
-	//Used to resolve 'sender' object type ('OneAPI', 'SMPP')
-	private SenderFactory factory = new SenderFactory();
+	//Used to create 'sender' object 
+	private SenderFactory senderFactory = new SenderFactory();
 
 	//*************************SMSClient initialization***********************************************************************************************************************************************
 	/**
@@ -40,7 +40,7 @@ public class SMSClient extends OneAPIImpl implements Sender  {
 		//OneAPI configuration used in extended 'OneAPIImpl' class
 		this.oneAPIConfig = mainConfig.getOneAPI();    
 		//Create 'sender' object used to send SMS messages depending on the configuration "SenderType" property
-		this.sender = this.factory.CreateSender(mainConfig.getSenderType(), this.oneAPIConfig, mainConfig.getSmpp());		
+		this.sender = this.senderFactory.CreateSender(mainConfig.getSenderType(), this.oneAPIConfig, mainConfig.getSmpp());
 	}
 
 	/**
@@ -53,7 +53,7 @@ public class SMSClient extends OneAPIImpl implements Sender  {
 		//OneAPI configuration used in extended 'OneAPIImpl' class
 		this.oneAPIConfig = oneAPIConfig;
 		//Create OneAPI 'sender' object used to send SMS messages
-		this.sender = this.factory.createOneAPISender(this.oneAPIConfig);	
+		this.sender = this.senderFactory.createOneAPISender(this.oneAPIConfig);
 	}
 
 	/**
@@ -67,7 +67,7 @@ public class SMSClient extends OneAPIImpl implements Sender  {
 		//OneAPI configuration used in extended 'OneAPIImpl' class
 		this.oneAPIConfig = oneAPIConfig;
 		//Create SMPP 'sender' object used to send SMS messages
-		this.sender = this.factory.createSMPPSender(senderConfig);
+		this.sender = this.senderFactory.createSMPPSender(senderConfig);
 	}
 
 
