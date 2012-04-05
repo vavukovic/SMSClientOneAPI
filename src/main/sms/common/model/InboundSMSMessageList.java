@@ -70,8 +70,10 @@ public class InboundSMSMessageList implements java.io.Serializable {
 		StringBuffer buffer=new StringBuffer();
 		buffer.append("numberOfMessagesInThisBatch = ");
 		buffer.append(numberOfMessagesInThisBatch);
-		buffer.append(", resourceURL = ");
-		buffer.append(resourceURL);
+		if (resourceURL != null) {
+			buffer.append(", resourceURL = ");
+			buffer.append(resourceURL);
+		}
 		buffer.append(", totalNumberOfPendingMessages = ");
 		buffer.append(totalNumberOfPendingMessages);
 

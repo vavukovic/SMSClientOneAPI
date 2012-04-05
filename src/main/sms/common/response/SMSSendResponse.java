@@ -120,17 +120,20 @@ public class SMSSendResponse implements java.io.Serializable {
 			buffer.append(", contentType = "+contentType);
 		}
 		if (requestError!=null) {
-			buffer.append(", requestError = {");
+			if (buffer.length() > 0) buffer.append(", ");
+			buffer.append("requestError = {");
 			buffer.append(requestError.toString());
 			buffer.append("}");
 		}
 		if (resourceReference!=null) {
-			buffer.append(", resourceReference = {");
+			if (buffer.length() > 0) buffer.append(", ");
+			buffer.append("resourceReference = {");
 			buffer.append(resourceReference.toString());
 			buffer.append("}");
 		}
 		if (smppResponseList!=null) {
-			buffer.append(", smppResponseList = {");
+			if (buffer.length() > 0) buffer.append(", ");
+			buffer.append("smppResponseList = {");
 			for (SMPPResponse smppReponse : smppResponseList) {
 				buffer.append(smppReponse.toString());
 				buffer.append(";");

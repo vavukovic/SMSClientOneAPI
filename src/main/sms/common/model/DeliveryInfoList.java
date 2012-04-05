@@ -114,7 +114,9 @@ public class DeliveryInfoList implements java.io.Serializable {
 			}
 			buffer.append("} ");
 		}
-		buffer.append(", resourceURL = "+resourceURL);
+		if (resourceURL != null) {
+			buffer.append(", resourceURL = "+resourceURL);
+		}
 		return buffer.toString();
 	}
 

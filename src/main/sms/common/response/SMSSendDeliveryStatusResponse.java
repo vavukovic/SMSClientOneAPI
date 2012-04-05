@@ -96,12 +96,14 @@ public class SMSSendDeliveryStatusResponse implements java.io.Serializable {
 			buffer.append(", contentType = "+contentType);
 		}
 		if (requestError!=null) {
-			buffer.append(", requestError = {");
+			if (buffer.length() > 0) buffer.append(", ");
+			buffer.append("requestError = {");
 			buffer.append(requestError.toString());
 			buffer.append("}");
 		}
 		if (deliveryInfoList!=null) {
-			buffer.append(", deliveryInfoList = {");
+			if (buffer.length() > 0) buffer.append(", ");
+			buffer.append("deliveryInfoList = {");
 			buffer.append(deliveryInfoList.toString());
 			buffer.append("}");
 		}

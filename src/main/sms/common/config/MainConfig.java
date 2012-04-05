@@ -6,7 +6,6 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
-
 import sms.common.exceptiontype.ConfigException;
 import sms.common.impl.SMSClient.SenderType;
 import sms.oneapi.config.OneAPIConfig;

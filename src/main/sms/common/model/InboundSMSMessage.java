@@ -127,19 +127,31 @@ public class InboundSMSMessage implements Serializable {
 	 */
 	public String toString() {
 		StringBuffer buffer=new StringBuffer();
-		buffer.append("dateTime = ");
-		buffer.append(dateTime);
-		buffer.append(", destinationAddress = ");
+		if (dateTime != null) {
+			buffer.append("dateTime = ");
+			buffer.append(dateTime);
+		}
+		
+		if (buffer.length() > 0) buffer.append(", ");
+		buffer.append("destinationAddress = ");
 		buffer.append(destinationAddress);
-		buffer.append(", messageId = ");
-		buffer.append(messageId);
+		
+		if (messageId != null) {
+			buffer.append(", messageId = ");
+			buffer.append(messageId);
+		}
+		
 		buffer.append(", message = ");
 		buffer.append(message);
-		buffer.append(", resourceURL = ");
-		buffer.append(resourceURL);
+		
+		if (resourceURL != null) {
+			buffer.append(", resourceURL = ");
+			buffer.append(resourceURL);
+		}
+		
 		buffer.append(", senderAddress = ");
 		buffer.append(senderAddress);
+		
 		return buffer.toString();		
 	}
-
 }
