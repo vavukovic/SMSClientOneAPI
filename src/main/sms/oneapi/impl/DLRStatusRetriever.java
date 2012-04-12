@@ -56,10 +56,7 @@ public class DLRStatusRetriever {
 
 				for (String resourceUrl : oneAPISender.getResourceUrlList()) {
 					try {
-						//TODO - Remove after url will be fixed in OneAPI service
-						String tmpResUrl = resourceUrl.replace("SendSMSService", "QuerySMSService");			
-
-						response = oneAPIImpl.queryDeliveryStatusByUrl(tmpResUrl);
+						response = oneAPIImpl.queryDeliveryStatusByUrl(resourceUrl);
 
 						int count = 0;
 						for (DeliveryInfo deliveryInfo : response.getDeliveryInfoList().getDeliveryInfo()) {

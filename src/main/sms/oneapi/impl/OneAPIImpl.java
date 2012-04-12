@@ -80,7 +80,7 @@ public class OneAPIImpl implements OneAPI {
 		try {
 
 			StringBuilder buildUrl = new StringBuilder(this.oneAPIConfig.getSmsMessagingBaseUrl());
-			buildUrl.append("/LocationService/");
+			buildUrl.append("/");
 			buildUrl.append(URLEncoder.encode(this.oneAPIConfig.getVersionOneAPISMS(), OneApiConnection.CHAR_ENCODING));	
 			buildUrl.append("/location/queries/location?requestedAccuracy=");	
 			buildUrl.append(URLEncoder.encode(String.valueOf(requestedAccuracy), OneApiConnection.CHAR_ENCODING));	
@@ -123,7 +123,7 @@ public class OneAPIImpl implements OneAPI {
 		StringBuilder buildUrl = new StringBuilder(this.oneAPIConfig.getSmsMessagingBaseUrl());	
 
 		try {					
-			buildUrl.append("/QuerySMSService/");
+			buildUrl.append("/");
 			buildUrl.append(URLEncoder.encode(this.oneAPIConfig.getVersionOneAPISMS(), OneApiConnection.CHAR_ENCODING));
 			buildUrl.append("/smsmessaging/outbound/");		
 			buildUrl.append(URLEncoder.encode(senderAddress, OneApiConnection.CHAR_ENCODING));
@@ -208,7 +208,7 @@ public class OneAPIImpl implements OneAPI {
 		int responseCode=0;
 		try {
 			StringBuilder buildUrl = new StringBuilder(this.oneAPIConfig.getSmsMessagingBaseUrl());
-			buildUrl.append("/SMSDeliveryService/");
+			buildUrl.append("/");
 			buildUrl.append(URLEncoder.encode(this.oneAPIConfig.getVersionOneAPISMS(), OneApiConnection.CHAR_ENCODING));
 			buildUrl.append("/smsmessaging/outbound/");
 			buildUrl.append(URLEncoder.encode(senderAddress, OneApiConnection.CHAR_ENCODING));
@@ -246,7 +246,7 @@ public class OneAPIImpl implements OneAPI {
 		StringBuilder buildUrl = new StringBuilder(this.oneAPIConfig.getSmsMessagingBaseUrl());
 
 		try {		
-			buildUrl.append("/CancelSMSDeliveryService/");
+			buildUrl.append("/");
 			buildUrl.append(URLEncoder.encode(this.oneAPIConfig.getVersionOneAPISMS(), OneApiConnection.CHAR_ENCODING));
 			buildUrl.append("/outbound/subscriptions/");
 			buildUrl.append(URLEncoder.encode(subscriptionId,  OneApiConnection.CHAR_ENCODING));
@@ -316,7 +316,7 @@ public class OneAPIImpl implements OneAPI {
 		String contentType = null;
 		try {		
 			StringBuilder buildUrl = new StringBuilder(this.oneAPIConfig.getSmsMessagingBaseUrl());
-			buildUrl.append("/RetrieveSMSService/");
+			buildUrl.append("/");
 			buildUrl.append(URLEncoder.encode(this.oneAPIConfig.getVersionOneAPISMS(), OneApiConnection.CHAR_ENCODING));	
 			buildUrl.append("/smsmessaging/inbound/registrations/");	
 			buildUrl.append(URLEncoder.encode(registrationId,  OneApiConnection.CHAR_ENCODING));
@@ -383,7 +383,7 @@ public class OneAPIImpl implements OneAPI {
 		int responseCode=0;
 		try {
 			StringBuilder buildUrl = new StringBuilder(this.oneAPIConfig.getSmsMessagingBaseUrl());		
-			buildUrl.append("/SMSReceiptService/");
+			buildUrl.append("/");
 			buildUrl.append(URLEncoder.encode(this.oneAPIConfig.getVersionOneAPISMS(), OneApiConnection.CHAR_ENCODING));	
 			buildUrl.append("/smsmessaging/inbound/subscriptions");
 
@@ -420,7 +420,7 @@ public class OneAPIImpl implements OneAPI {
 		StringBuilder buildUrl = new StringBuilder(this.oneAPIConfig.getSmsMessagingBaseUrl());
 
 		try {		
-			buildUrl.append("/CancelSMSReceiptService/");
+			buildUrl.append("/");
 			buildUrl.append(URLEncoder.encode(this.oneAPIConfig.getVersionOneAPISMS(), OneApiConnection.CHAR_ENCODING));
 			buildUrl.append("/inbound/subscriptions/");
 			buildUrl.append(URLEncoder.encode(subscriptionId, OneApiConnection.CHAR_ENCODING));

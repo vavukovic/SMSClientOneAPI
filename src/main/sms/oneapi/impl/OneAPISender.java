@@ -89,7 +89,7 @@ public class OneAPISender implements Sender {
 		int responseCode=0;
 		try {				
 			StringBuilder buildUrl = new StringBuilder(this.oneAPIConfig.getSmsMessagingBaseUrl());
-			buildUrl.append("/SendSMSService/");
+			buildUrl.append("/");
 			buildUrl.append(URLEncoder.encode(this.oneAPIConfig.getVersionOneAPISMS(), OneApiConnection.CHAR_ENCODING));	
 			buildUrl.append("/smsmessaging/outbound/");	
 			buildUrl.append(URLEncoder.encode(sms.getSenderAddress(),  OneApiConnection.CHAR_ENCODING));
