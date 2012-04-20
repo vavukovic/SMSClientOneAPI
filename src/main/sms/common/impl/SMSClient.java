@@ -15,7 +15,6 @@ import sms.common.response.SMSSendResponse;
 import sms.oneapi.config.OneAPIConfig;
 import sms.oneapi.impl.OneAPIImpl;
 import sms.smpp.config.SmppConfig;
-
 import com.cloudhopper.commons.charset.GSMCharset;
 
 public class SMSClient extends OneAPIImpl implements Sender  {
@@ -103,6 +102,7 @@ public class SMSClient extends OneAPIImpl implements Sender  {
 	public SMSSendResponse sendSMS(String senderAddress, String recipientAddress, String messageText) throws CreateSmsException, SendSmsException {
 		return this.sender.sendSMS(senderAddress, recipientAddress, messageText);	
 	}
+	
 	/**
 	 * Add 'Delivery Reports' listener
 	 * @param listener - (new DeliveryReportListener)
@@ -113,7 +113,7 @@ public class SMSClient extends OneAPIImpl implements Sender  {
 	}
 
 	/**
-	 * Add 'Inbound Messages' listener
+	 * Add 'INBOUND Messages' listener
 	 * @see OneAPI - Messages are pulled automatically depending on the 'inboundMessagesRetrievingInterval' client configuration parameter, SMPP - messages are retrieved on one of the opened SMPP sessions
 	 * @param listener - (new InboundMessageListener)
 	 * @throws InboundMessageListenerException 
@@ -122,7 +122,7 @@ public class SMSClient extends OneAPIImpl implements Sender  {
 	public void addInboundMessageListener(InboundMessageListener listener) throws InboundMessageListenerException {
 		this.sender.addInboundMessageListener(listener);	
 	}
-	//
+	
 	/**
 	 * Release client resources 
 	 */

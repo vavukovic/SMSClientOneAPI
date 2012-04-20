@@ -65,7 +65,7 @@ public interface Sender {
 	public SMSSendResponse sendHLRRequest(String destination) throws SendHlrRequestException, NotSupportedException;
 
 	/**
-	 * Add 'Inbound Messages' listener
+	 * Add 'INBOUND Messages' listener
 	 * 
 	 * @param listener - (new InboundMessageListener)
 	 * @throws InboundMessageListenerException 

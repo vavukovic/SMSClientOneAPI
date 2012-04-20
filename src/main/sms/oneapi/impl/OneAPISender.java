@@ -98,16 +98,14 @@ public class OneAPISender implements Sender {
 			String url = buildUrl.toString();			
 			HttpURLConnection connection =  OneApiConnection.setupConnection(url,  OneApiConnection.URL_ENCODED_CONTENT_TYPE, this.oneAPIConfig);
 			connection.setDoOutput(true);
+	
 			OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
-
 			String requestBody=JSONRequest.formEncodeParams(formParameters);
 			out.write(requestBody);
 			out.close();
 
 			responseCode=connection.getResponseCode();		
 			response = smsSendResponseProcessor.getResponse(connection, OneApiConnection.CREATED);
-
-			System.out.println("" + responseCode);
 
 			//TODO - Remove when push server will be implemented
 			//Add resource url to the list which will be used to query delivery status 
@@ -157,7 +155,7 @@ public class OneAPISender implements Sender {
 	}
 
 	/**
-	 * Add OneAPI 'Inbound Messages' listener
+	 * Add OneAPI 'INBOUND Messages' listener
 	 * Messages are pulled automatically depending on the 'inboundMessagesRetrievingInterval' client configuration parameter
 	 * @param listener - (new InboundMessageListener)
 	 */

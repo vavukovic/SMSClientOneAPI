@@ -49,10 +49,10 @@ public class LocationResponse implements java.io.Serializable {
 	public void setContentType(String contentType) { this.contentType=contentType; }
 	/**
 	 * set the contents of the error response
-	 * @param requestError2 sets the contents of the error response
+	 * @param requestError sets the contents of the error response
 	 * @see RequestError
 	 */
-	public void setRequestError(sms.common.exceptiontype.RequestError requestError2) { this.requestError=requestError2; }
+	public void setRequestError(sms.common.exceptiontype.RequestError requestError) { this.requestError=requestError; }
 
 	/**
 	 * the contents of the HTTP 'Location' header response if available
